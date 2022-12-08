@@ -86,7 +86,7 @@ for (const [protocolName, definition] of Object.entries(PROTOCOLS)) {
                 )
                 .replace('{REF}', ref)
             lines.push(jsDoc)
-            lines.push(`${INDENTATION}${command}(${varsAndParams.join(', ')}): ${returnValue};`)
+            lines.push(`${INDENTATION}${command}(${varsAndParams.join(', ')}): Promise<${returnValue}>;`)
         }
     }
 

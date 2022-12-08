@@ -24,7 +24,7 @@ export default class SauceService implements Services.ServiceInstance {
 
     private _options: SauceServiceConfig
     private _api: SauceLabs
-    private _browser?: Browser<'async'> | MultiRemoteBrowser<'async'>
+    private _browser?: Browser | MultiRemoteBrowser
     private _isRDC?: boolean
     private _suiteTitle?: string
     private _cid = ''
@@ -68,7 +68,7 @@ export default class SauceService implements Services.ServiceInstance {
         }
     }
 
-    before (caps: unknown, specs: string[], browser: Browser<'async'> | MultiRemoteBrowser<'async'>) {
+    before (caps: unknown, specs: string[], browser: Browser | MultiRemoteBrowser) {
         this._browser = browser
 
         // Ensure capabilities are not null in case of multiremote
@@ -77,7 +77,7 @@ export default class SauceService implements Services.ServiceInstance {
         // contains `simulator` or `emulator` it's an EMU/SIM session
         // `this._browser.capabilities` returns the process data from Sauce which is without
         // the postfix
-        const capabilities = (this._browser as Browser<'async'>).requestedCapabilities || {}
+        const capabilities = (this._browser as Browser).requestedCapabilities || {}
         this._isRDC = isRDC(capabilities as Capabilities.Capabilities)
     }
 
@@ -299,7 +299,7 @@ export default class SauceService implements Services.ServiceInstance {
                 this.updateJob(this._browser.sessionId, failures)
         }
 
-        const multiRemoteBrowser = this._browser as MultiRemoteBrowser<'async'>
+        const multiRemoteBrowser = this._browser as MultiRemoteBrowser
         return Promise.all(Object.keys(this._capabilities).map(async (browserName) => {
             const isMultiRemoteRDC = isRDC(multiRemoteBrowser[browserName].capabilities as Capabilities.Capabilities)
             log.info(`Update multiRemote job for browser "${browserName}" and sessionId ${multiRemoteBrowser[browserName].sessionId}, ${status}`)
@@ -345,7 +345,7 @@ export default class SauceService implements Services.ServiceInstance {
             return this.updateJob(oldSessionId, this._failures, true)
         }
 
-        const mulitremoteBrowser = this._browser as MultiRemoteBrowser<'async'>
+        const mulitremoteBrowser = this._browser as MultiRemoteBrowser
         const browserName = mulitremoteBrowser.instances.filter(
             (browserName: string) => mulitremoteBrowser[browserName].sessionId === newSessionId)[0]
         log.info(`Update (reloaded) multiremote job for browser "${browserName}" and sessionId ${oldSessionId}, ${status}`)
@@ -379,7 +379,7 @@ export default class SauceService implements Services.ServiceInstance {
 
             let testCnt = ++this._testCnt
 
-            const mulitremoteBrowser = this._browser as MultiRemoteBrowser<'async'>
+            const mulitremoteBrowser = this._browser as MultiRemoteBrowser
             if (this._browser && this._browser.isMultiremote) {
                 testCnt = Math.ceil(testCnt / mulitremoteBrowser.instances.length)
             }
@@ -418,17 +418,17 @@ export default class SauceService implements Services.ServiceInstance {
         }
 
         if (this._browser.isMultiremote) {
-            const multiRemoteBrowser = this._browser as MultiRemoteBrowser<'async'>
+            const multiRemoteBrowser = this._browser as MultiRemoteBrowser
 
             return Promise.all(Object.keys(this._capabilities).map(async (browserName) => {
                 const isMultiRemoteRDC = isRDC(multiRemoteBrowser[browserName].capabilities as Capabilities.Capabilities)
                 if ((isMultiRemoteRDC && !annotation.includes('sauce:context')) || !isMultiRemoteRDC) {
-                    return (this._browser as Browser<'async'>).execute(annotation)
+                    return (this._browser as Browser).execute(annotation)
                 }
             }))
         }
 
-        return (this._browser as Browser<'async'>).execute(annotation)
+        return (this._browser as Browser).execute(annotation)
     }
 
     private async _setJobName(suiteTitle: string | undefined) {

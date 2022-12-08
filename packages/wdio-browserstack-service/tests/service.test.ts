@@ -17,7 +17,7 @@ vi.mock('@wdio/logger', () => import(path.join(process.cwd(), '__mocks__', '@wdi
 
 const log = logger('test')
 let service: BrowserstackService
-let browser: Browser<'async'> | MultiRemoteBrowser<'async'>
+let browser: Browser | MultiRemoteBrowser
 
 beforeEach(() => {
     vi.mocked(log.info).mockClear()
@@ -56,7 +56,7 @@ beforeEach(() => {
             }
         },
         browserB: {}
-    } as unknown as Browser<'async'> | MultiRemoteBrowser<'async'>
+    } as unknown as Browser | MultiRemoteBrowser
     service = new BrowserstackService({} as any, [] as any, { user: 'foo', key: 'bar' } as any)
 })
 
