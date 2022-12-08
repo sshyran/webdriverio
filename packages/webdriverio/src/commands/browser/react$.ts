@@ -6,7 +6,7 @@ import type { ElementReference } from '@wdio/protocols'
 
 import { getElement } from '../../utils/getElementObject.js'
 import { waitToLoadReact, react$ as react$Script } from '../../scripts/resq.js'
-import type { ReactSelectorOptions } from '../../types'
+import type { Browser, ReactSelectorOptions } from '../../types'
 
 let resqScript: string
 
@@ -54,7 +54,7 @@ let resqScript: string
  *
  */
 export default async function react$ (
-    this: WebdriverIO.Browser,
+    this: Browser,
     selector: string,
     { props = {}, state = {} }: ReactSelectorOptions = {}
 ) {

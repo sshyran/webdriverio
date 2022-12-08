@@ -1,4 +1,5 @@
 import { KeyAction, PointerAction, WheelAction, ActionType, BaseActionParams } from '../../utils/actions/index.js'
+import type { Browser } from '../../types'
 
 /**
  * The action command is a low-level interface for providing virtualized device input actions to the web browser.
@@ -149,22 +150,22 @@ import { KeyAction, PointerAction, WheelAction, ActionType, BaseActionParams } f
  *
  */
 export default function action (
-    this: WebdriverIO.Browser,
+    this: Browser,
     type: 'key',
     opts?: Pick<BaseActionParams, 'id'>
 ): KeyAction
 export default function action (
-    this: WebdriverIO.Browser,
+    this: Browser,
     type: 'pointer',
     opts?: BaseActionParams
 ): PointerAction
 export default function action (
-    this: WebdriverIO.Browser,
+    this: Browser,
     type: 'wheel',
     opts?: Pick<BaseActionParams, 'id'>
 ): WheelAction
 export default function action (
-    this: WebdriverIO.Browser,
+    this: Browser,
     type: ActionType,
     opts?: BaseActionParams
 ): KeyAction | PointerAction | WheelAction {

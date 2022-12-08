@@ -9,17 +9,11 @@ type BrowserImport = import('../types').Browser
 type ElementImport = import('../types').Element
 type MultiRemoteBrowserImport = import('../types').MultiRemoteBrowser
 
-declare namespace WebdriverIOAsync {
-    interface Browser {}
-    interface Element {}
-    interface MultiRemoteBrowser {}
-}
-
 declare namespace WebdriverIO {
-    interface Browser extends BrowserImport, WebdriverIOAsync.Browser { }
-    interface Element extends ElementImport, WebdriverIOAsync.Element { }
+    interface Browser extends BrowserImport { }
+    interface Element extends ElementImport { }
     // @ts-expect-error
-    interface MultiRemoteBrowser extends MultiRemoteBrowserImport, WebdriverIOAsync.MultiRemoteBrowser { }
+    interface MultiRemoteBrowser extends MultiRemoteBrowserImport { }
 }
 
 declare module NodeJS {

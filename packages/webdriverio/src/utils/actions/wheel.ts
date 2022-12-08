@@ -1,5 +1,5 @@
 import BaseAction, { BaseActionParams } from './base.js'
-import type { ChainablePromiseElement } from '../../types'
+import type { Browser, Element, ChainablePromiseElement } from '../../types'
 
 export interface ScrollParams {
     /**
@@ -21,7 +21,7 @@ export interface ScrollParams {
     /**
      * element origin
      */
-    origin?: WebdriverIO.Element | ChainablePromiseElement<WebdriverIO.Element>
+    origin?: Element | ChainablePromiseElement<Element>
     /**
      * duration ratio be the ratio of time delta and duration
      */
@@ -37,7 +37,7 @@ const DEFAULT_SCROLL_PARAMS: ScrollParams = {
 }
 
 export default class WheelAction extends BaseAction {
-    constructor(instance: WebdriverIO.Browser, params?: BaseActionParams) {
+    constructor(instance: Browser, params?: BaseActionParams) {
         super(instance, 'wheel', params)
     }
 

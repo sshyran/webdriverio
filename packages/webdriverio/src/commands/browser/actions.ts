@@ -1,4 +1,5 @@
 import { KeyAction, PointerAction, WheelAction } from '../../utils/actions/index.js'
+import type { Browser } from '../../types'
 
 /**
  * Allows to run multiple action interaction at once, e.g. to simulate a pinch zoom.
@@ -27,7 +28,7 @@ import { KeyAction, PointerAction, WheelAction } from '../../utils/actions/index
  *
  */
 export default async function actions (
-    this: WebdriverIO.Browser,
+    this: Browser,
     actions: (KeyAction | PointerAction | WheelAction)[],
 ): Promise<void> {
     await this.performActions(actions.map((action) => action.toJSON()))

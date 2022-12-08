@@ -1,7 +1,7 @@
 import { getElement } from '../../utils/getElementObject.js'
 import { getBrowserObject } from '../../utils/index.js'
 import { ELEMENT_KEY } from '../../constants.js'
-import type { CustomStrategyFunction } from '../../types'
+import type { Element, CustomStrategyFunction } from '../../types'
 
 /**
  *
@@ -28,7 +28,7 @@ import type { CustomStrategyFunction } from '../../types'
  * @return {Element}
  */
 async function custom$ (
-    this: WebdriverIO.Element,
+    this: Element,
     strategyName: string,
     ...strategyArguments: any[]
 ) {

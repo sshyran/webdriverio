@@ -1,7 +1,7 @@
 import { findElement } from '../../utils/index.js'
 import { getElement } from '../../utils/getElementObject.js'
 import { ELEMENT_KEY } from '../../constants.js'
-import type { Selector } from '../../types'
+import type { Selector, Browser, Element } from '../../types'
 import type { ElementReference } from '@wdio/protocols'
 
 /**
@@ -79,7 +79,7 @@ import type { ElementReference } from '@wdio/protocols'
  *
  */
 export default async function $ (
-    this: WebdriverIO.Browser | WebdriverIO.Element,
+    this: Browser | Element,
     selector: Selector
 ) {
     /**

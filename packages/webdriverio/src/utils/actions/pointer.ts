@@ -1,7 +1,7 @@
 /* eslint-disable no-dupe-class-members */
 import { ElementReference } from '@wdio/protocols'
 import BaseAction, { BaseActionParams, KeyActionType } from './base.js'
-import type { ChainablePromiseElement } from '../../types'
+import type { Browser, Element, ChainablePromiseElement } from '../../types'
 
 export type ButtonNames = 'left' | 'middle' | 'right'
 export type Button = 0 | 1 | 2
@@ -38,14 +38,14 @@ const MOVE_PARAM_DEFAULTS = {
     x: 0,
     y: 0,
     duration: 100,
-    origin: ORIGIN_DEFAULT as (Origin | ElementReference | ChainablePromiseElement<WebdriverIO.Element>)
+    origin: ORIGIN_DEFAULT as (Origin | ElementReference | ChainablePromiseElement<Element>)
 }
 
 type PointerActionParams = Partial<typeof PARAM_DEFAULTS> & Partial<PointerActionUpParams>
 type PointerActionMoveParams = Partial<typeof MOVE_PARAM_DEFAULTS> & PointerActionParams
 
 export default class PointerAction extends BaseAction {
-    constructor (instance: WebdriverIO.Browser, params: BaseActionParams = {}) {
+    constructor (instance: Browser, params: BaseActionParams = {}) {
         if (!params.parameters) {
             params.parameters = { pointerType: POINTER_TYPE_DEFAULT }
         }

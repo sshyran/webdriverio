@@ -44,6 +44,7 @@
  */
 import { getBrowserObject } from '../../utils/index.js'
 import type { ThrottleOptions } from '../../utils/interception/types'
+import type { Browser } from '../../types'
 
 const NETWORK_PRESETS = {
     'offline': {
@@ -111,7 +112,7 @@ const NETWORK_PRESETS = {
 const NETWORK_PRESET_TYPES = Object.keys(NETWORK_PRESETS)
 
 export default async function throttle (
-    this: WebdriverIO.Browser,
+    this: Browser,
     params: ThrottleOptions
 ) {
     if (
