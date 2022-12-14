@@ -23,7 +23,7 @@ import type { Element } from '../../types'
  * @return {Element}
  * @type utility
  */
-export default function parentElement (this: Element) {
+export function parentElement (this: Element) {
     return this.$(/* istanbul ignore next */ function parentElement (this: HTMLElement) {
         return this.parentElement as HTMLElement
     })

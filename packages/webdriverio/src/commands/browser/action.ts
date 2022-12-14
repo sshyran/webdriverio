@@ -149,22 +149,22 @@ import type { Browser } from '../../types'
  * @type utility
  *
  */
-export default function action (
+export function action (
     this: Browser,
     type: 'key',
     opts?: Pick<BaseActionParams, 'id'>
 ): KeyAction
-export default function action (
+export function action (
     this: Browser,
     type: 'pointer',
     opts?: BaseActionParams
 ): PointerAction
-export default function action (
+export function action (
     this: Browser,
     type: 'wheel',
     opts?: Pick<BaseActionParams, 'id'>
 ): WheelAction
-export default function action (
+export function action (
     this: Browser,
     type: ActionType,
     opts?: BaseActionParams

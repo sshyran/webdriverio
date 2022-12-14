@@ -43,7 +43,7 @@ import type { Element, WaitForOptions } from '../../types'
  * @type utility
  *
  */
-export default function waitForExist (
+export function waitForExist (
     this: Element,
     {
         timeout = this.options.waitforTimeout,

@@ -26,7 +26,7 @@ import type { ElementArray, CustomStrategyFunction, CustomStrategyReference, Bro
  * @param {Any} strategyArguments
  * @return {ElementArray}
  */
-export default async function custom$$ (
+export async function custom$$ (
     this: Browser,
     strategyName: string,
     ...strategyArguments: any[]

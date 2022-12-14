@@ -78,7 +78,7 @@ import type { ElementReference } from '@wdio/protocols'
  * @type utility
  *
  */
-export default async function $ (
+export async function $ (
     this: Browser | Element,
     selector: Selector
 ) {

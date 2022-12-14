@@ -24,7 +24,7 @@ import type { Element } from '../../types'
  * @type utility
  */
 
-export default function nextElement (this: Element) {
+export function nextElement (this: Element) {
     return this.$(/* istanbul ignore next */ function nextElement (this: HTMLElement) {
         return this.nextElementSibling as HTMLElement
     })

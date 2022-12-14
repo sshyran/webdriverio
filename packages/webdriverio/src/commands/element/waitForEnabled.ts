@@ -43,7 +43,7 @@ import type { Element, WaitForOptions } from '../../types'
  * @type utility
  *
  */
-export default async function waitForEnabled(
+export async function waitForEnabled(
     this: Element,
     {
         timeout = this.options.waitforTimeout,

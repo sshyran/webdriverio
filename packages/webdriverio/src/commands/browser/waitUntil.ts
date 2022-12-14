@@ -41,7 +41,7 @@ import type { Browser, Element, WaitUntilOptions } from '../../types'
  * @type utility
  *
  */
-export default function waitUntil(
+export function waitUntil(
     this: Browser | Element,
     condition: () => boolean | Promise<boolean>,
     {

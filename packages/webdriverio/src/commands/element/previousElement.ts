@@ -23,7 +23,7 @@ import type { Element } from '../../types'
  * @return {Element}
  * @type utility
  */
-export default function previousElement (this: Element) {
+export function previousElement (this: Element) {
     return this.$(/* istanbul ignore next */ function previousElement (this: HTMLElement) {
         return this.previousElementSibling as HTMLElement
     })

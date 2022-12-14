@@ -41,7 +41,7 @@ import type { Element, WaitForOptions } from '../../types'
  * @type utility
  *
  */
-export default async function waitForDisplayed (
+export async function waitForDisplayed (
     this: Element,
     {
         timeout = this.options.waitforTimeout,

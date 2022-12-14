@@ -27,7 +27,7 @@ import type { Browser } from '../../types'
  * @type utility
  *
  */
-export default async function actions (
+export async function actions (
     this: Browser,
     actions: (KeyAction | PointerAction | WheelAction)[],
 ): Promise<void> {

@@ -31,7 +31,7 @@ import type { Element, WaitForOptions } from '../../types'
  * @return {Boolean} `true` if element is clickable (or doesn't if flag is set)
  *
  */
-export default async function waitForClickable (
+export async function waitForClickable (
     this: Element,
     {
         timeout = this.options.waitforTimeout,

@@ -25,7 +25,7 @@ import type { CustomStrategyFunction, Browser } from '../../types'
  * @param {Any} strategyArguments
  * @return {Element}
  */
-export default async function custom$ (
+export async function custom$ (
     this: Browser,
     strategyName: string,
     ...strategyArguments: any[]

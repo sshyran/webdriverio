@@ -27,7 +27,7 @@ import type { Element, CustomStrategyFunction } from '../../types'
  * @param {Any} strategyArguments
  * @return {Element}
  */
-async function custom$ (
+export async function custom$ (
     this: Element,
     strategyName: string,
     ...strategyArguments: any[]
@@ -66,5 +66,3 @@ async function custom$ (
 
     throw Error('Your locator strategy script must return an element')
 }
-
-export default custom$

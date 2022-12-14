@@ -52,7 +52,7 @@ import type { Element, TouchActions } from '../../types'
  * @for android, ios
  *
  */
-export default function touchAction (
+export function touchAction (
     this: Element,
     actions: TouchActions
 ) {

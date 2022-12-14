@@ -59,7 +59,7 @@ import type { Browser, TouchActions } from '../../types'
  * @for android, ios
  *
  */
-export default function touchAction (
+export function touchAction (
     this: Browser,
     actions: TouchActions
 ) {
