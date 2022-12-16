@@ -2,7 +2,7 @@ import type { ElementReference } from '@wdio/protocols'
 
 import { findElements, enhanceElementsArray } from '../../utils/index.js'
 import { getElements } from '../../utils/getElementObject.js'
-import type { Selector, ElementArray, Browser, Element } from '../../types'
+import type { Selector, ElementArray } from '../../types'
 
 /**
  * The `$$` command is a short way to call the [`findElements`](/docs/api/webdriver#findelements) command in order
@@ -60,11 +60,11 @@ import type { Selector, ElementArray, Browser, Element } from '../../types'
  *
  */
 export async function $$ (
-    this: Browser | Element,
+    this: WebdriverIO.Browser | WebdriverIO.Element,
     selector: Selector | ElementReference[] | Element[]
 ) {
     const res = Array.isArray(selector)
-        ? selector
+        ? selector as ElementReference[]
         : await findElements.call(this, selector)
     const elements = await getElements.call(this, selector, res)
     return enhanceElementsArray(elements, this, selector) as ElementArray

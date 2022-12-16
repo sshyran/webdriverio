@@ -3,10 +3,9 @@ import type { Capabilities } from '@wdio/types'
 
 import BaseAction, { BaseActionParams } from './base.js'
 import { Key } from '../../constants.js'
-import type { Browser } from '../../types'
 
 export default class KeyAction extends BaseAction {
-    constructor (instance: Browser, params?: BaseActionParams) {
+    constructor (instance: WebdriverIO.Browser, params?: BaseActionParams) {
         super(instance, 'key', params)
     }
 

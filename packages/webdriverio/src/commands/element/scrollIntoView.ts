@@ -1,6 +1,5 @@
 import { ELEMENT_KEY } from '../../constants.js'
 import { getBrowserObject } from '../../utils/index.js'
-import type { Element } from '../../types'
 
 /**
  *
@@ -24,7 +23,7 @@ import type { Element } from '../../types'
  *
  */
 export async function scrollIntoView (
-    this: Element,
+    this: WebdriverIO.Element,
     options: ScrollIntoViewOptions | boolean = { block: 'start', inline: 'nearest' }
 ) {
     const browser = getBrowserObject(this)

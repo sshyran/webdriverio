@@ -100,9 +100,9 @@ type SingleElementCommandNames = '$' | 'custom$' | 'react$'
 type MultiElementCommandNames = '$$' | 'custom$$' | 'react$$'
 type ElementCommandNames = SingleElementCommandNames | MultiElementCommandNames
 type MultiRemoteElementCommands = {
-    [K in keyof Pick<BrowserCommandsType, SingleElementCommandNames>]: (...args: Parameters<BrowserCommandsType[K]>) => ThenArg<MultiRemoteElement>
+    [K in keyof Pick<BrowserCommandsType, SingleElementCommandNames>]: (...args: Parameters<BrowserCommandsType[K]>) => ThenArg<WebdriverIO.MultiRemoteElement>
 } & {
-    [K in keyof Pick<BrowserCommandsType, MultiElementCommandNames>]: (...args: Parameters<BrowserCommandsType[K]>) => ThenArg<MultiRemoteElement[]>
+    [K in keyof Pick<BrowserCommandsType, MultiElementCommandNames>]: (...args: Parameters<BrowserCommandsType[K]>) => ThenArg<WebdriverIO.MultiRemoteElement[]>
 }
 
 export type MultiRemoteBrowserCommandsType = {
@@ -161,7 +161,7 @@ export interface CustomInstanceCommands<T> {
         func: AddCommandFn | AddCommandFnScoped<T, IsElement>,
         attachToElement?: IsElement,
         proto?: Record<string, any>,
-        instances?: Record<string, Browser | MultiRemoteBrowser>
+        instances?: Record<string, WebdriverIO.Browser | WebdriverIO.MultiRemoteBrowser>
     ): void;
 
     /**
@@ -172,7 +172,7 @@ export interface CustomInstanceCommands<T> {
         func: OverwriteCommandFn<ElementKey, BrowserKey, IsElement> | OverwriteCommandFnScoped<ElementKey, BrowserKey, IsElement>,
         attachToElement?: IsElement,
         proto?: Record<string, any>,
-        instances?: Record<string, Browser | MultiRemoteBrowser>
+        instances?: Record<string, WebdriverIO.Browser | WebdriverIO.MultiRemoteBrowser>
     ): void;
 
     /**
@@ -233,7 +233,7 @@ export interface BrowserBase extends InstanceBase, CustomInstanceCommands<Browse
 /**
  * export a browser interface that can be used for typing plugins
  */
-export interface Browser extends BrowserBase, BrowserCommandsType, ProtocolCommands {}
+interface Browser extends BrowserBase, BrowserCommandsType, ProtocolCommands {}
 export interface ElementBase extends InstanceBase, ElementReference, CustomInstanceCommands<Element> {
     isMultiremote: false
     /**
@@ -269,8 +269,8 @@ export interface ElementBase extends InstanceBase, ElementReference, CustomInsta
     error?: Error
 }
 
-export interface Element extends ElementBase, ProtocolCommands, Omit<BrowserCommandsType, keyof ElementCommandsType>, ElementCommandsType {}
-interface MultiRemoteBase extends Omit<InstanceBase, 'sessionId'>, CustomInstanceCommands<MultiRemoteBrowser> {
+interface Element extends ElementBase, ProtocolCommands, Omit<BrowserCommandsType, keyof ElementCommandsType>, ElementCommandsType {}
+interface MultiRemoteBase extends Omit<InstanceBase, 'sessionId'>, CustomInstanceCommands<WebdriverIO.MultiRemoteBrowser> {
     /**
      * multiremote browser instance names
      */
@@ -293,8 +293,6 @@ type MultiRemoteBrowserReference = Record<string, Browser>
 type MultiRemoteElementReference = Record<string, Element>
 interface MultiRemoteBrowserType extends MultiRemoteBase, MultiRemoteBrowserCommandsType, MultiRemoteProtocolCommandsType { }
 interface MultiRemoteElementType extends MultiRemoteElementBase, MultiRemoteProtocolCommandsType, Omit<MultiRemoteBrowserCommandsType, keyof MultiRemoteElementCommandsType>, MultiRemoteElementCommandsType {}
-export type MultiRemoteBrowser = MultiRemoteBrowserReference & MultiRemoteBrowserType
-export type MultiRemoteElement = MultiRemoteElementReference & MultiRemoteElementType
 
 export type ElementFunction = ((elem: HTMLElement) => HTMLElement) | ((elem: HTMLElement) => HTMLElement[])
 export type CustomStrategyFunction = (...args: any) => ElementReference | ElementReference[]
@@ -430,4 +428,13 @@ export interface AttachOptions extends Omit<DevToolsAttachOptions, 'capabilities
     }
     capabilities: DevToolsAttachOptions['capabilities'] | WebDriverAttachOptions['capabilities'],
     requestedCapabilities?: DevToolsAttachOptions['capabilities'] | WebDriverAttachOptions['capabilities'],
+}
+
+declare global {
+    namespace WebdriverIO {
+        interface Browser extends BrowserBase, BrowserCommandsType, ProtocolCommands {}
+        interface Element extends ElementBase, ProtocolCommands, Omit<BrowserCommandsType, keyof ElementCommandsType>, ElementCommandsType {}
+        type MultiRemoteBrowser = MultiRemoteBrowserReference & MultiRemoteBrowserType
+        type MultiRemoteElement = MultiRemoteElementReference & MultiRemoteElementType
+    }
 }

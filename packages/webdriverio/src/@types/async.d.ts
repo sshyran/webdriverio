@@ -4,16 +4,7 @@
  * the only feasable way to avoid cyclic dependencies between webdriverio
  * and @wdio/globals
  */
-
-type BrowserImport = import('../types').Browser
-type ElementImport = import('../types').Element
-type MultiRemoteBrowserImport = import('../types').MultiRemoteBrowser
-
-declare namespace WebdriverIO {
-    interface Browser extends BrowserImport { }
-    interface Element extends ElementImport { }
-    interface MultiRemoteBrowser extends MultiRemoteBrowserImport { }
-}
+/// <reference path="../types" />
 
 declare module NodeJS {
     interface Global {

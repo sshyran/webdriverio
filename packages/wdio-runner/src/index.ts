@@ -7,7 +7,7 @@ import { initialiseWorkerService, initialisePlugin, executeHooksWithArgs } from 
 import { ConfigParser } from '@wdio/config'
 import { _setGlobal } from '@wdio/globals'
 import { expect, setOptions } from 'expect-webdriverio'
-import { Selector, Browser, MultiRemoteBrowser, attach } from 'webdriverio'
+import { Selector, attach } from 'webdriverio'
 import type { Options, Capabilities } from '@wdio/types'
 
 import BrowserFramework from './browser.js'
@@ -22,7 +22,7 @@ import type {
 const log = logger('@wdio/runner')
 
 export default class Runner extends EventEmitter {
-    private _browser?: Browser | MultiRemoteBrowser
+    private _browser?: WebdriverIO.Browser | WebdriverIO.MultiRemoteBrowser
     private _configParser?: ConfigParser
     private _sigintWasCalled = false
     private _isMultiremote = false
@@ -129,7 +129,7 @@ export default class Runner extends EventEmitter {
         /**
          * initialisation successful, send start message
          */
-        const multiRemoteBrowser = browser as unknown as MultiRemoteBrowser
+        const multiRemoteBrowser = browser as unknown as WebdriverIO.MultiRemoteBrowser
         this._reporter.emit('runner:start', {
             cid,
             specs,
@@ -232,7 +232,7 @@ export default class Runner extends EventEmitter {
         config: SingleConfigOption,
         caps: Capabilities.RemoteCapability
     ) {
-        const browser = await this._startSession(config, caps) as Browser
+        const browser = await this._startSession(config, caps) as WebdriverIO.Browser
 
         // return null if session couldn't get established
         if (!browser) { return }
@@ -429,7 +429,7 @@ export default class Runner extends EventEmitter {
         /**
          * make sure instance(s) exist and have `sessionId`
          */
-        const multiremoteBrowser = this._browser as MultiRemoteBrowser
+        const multiremoteBrowser = this._browser as WebdriverIO.MultiRemoteBrowser
         const hasSessionId = Boolean(this._browser) && (this._isMultiremote
             /**
              * every multiremote instance should exist and should have `sessionId`

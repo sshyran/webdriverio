@@ -1,5 +1,5 @@
 import Timer from '../../utils/Timer.js'
-import type { Browser, Element, WaitUntilOptions } from '../../types'
+import type { WaitUntilOptions } from '../../types'
 
 /**
  *
@@ -42,7 +42,7 @@ import type { Browser, Element, WaitUntilOptions } from '../../types'
  *
  */
 export function waitUntil(
-    this: Browser | Element,
+    this: WebdriverIO.Browser | WebdriverIO.Element,
     condition: () => boolean | Promise<boolean>,
     {
         timeout = this.options.waitforTimeout,

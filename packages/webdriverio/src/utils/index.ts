@@ -19,7 +19,7 @@ import querySelectorAllDeep from './thirdParty/querySelectorShadowDom.js'
 import { ELEMENT_KEY, DRIVER_DEFAULT_ENDPOINT, DEEP_SELECTOR } from '../constants.js'
 import { findStrategy } from './findStrategy.js'
 import type { ElementArray, ElementFunction, Selector, ParsedCSSValue, CustomLocatorReturnValue } from '../types'
-import type { Element, Browser, MultiRemoteBrowser, CustomStrategyReference } from '../types'
+import type { CustomStrategyReference } from '../types'
 
 const log = logger('webdriverio')
 const INVALID_SELECTOR_ERROR = 'selector needs to be typeof `string` or `function`'
@@ -97,9 +97,9 @@ export const getElementFromResponse = (res: ElementReference) => {
 /**
  * traverse up the scope chain until browser element was reached
  */
-export function getBrowserObject (elem: Element | Browser): Browser {
-    const elemObject = elem as Element
-    return (elemObject as Element).parent ? getBrowserObject(elemObject.parent) : elem as Browser
+export function getBrowserObject (elem: WebdriverIO.Element | WebdriverIO.Browser): WebdriverIO.Browser {
+    const elemObject = elem as WebdriverIO.Element
+    return (elemObject as WebdriverIO.Element).parent ? getBrowserObject(elemObject.parent) : elem as WebdriverIO.Browser
 }
 
 function sanitizeCSS (value?: string) {
@@ -192,10 +192,10 @@ export function checkUnicode (value: string, isDevTools = false) {
 
 function fetchElementByJSFunction (
     selector: ElementFunction,
-    scope: Browser | Element,
+    scope: WebdriverIO.Browser | WebdriverIO.Element,
     referenceId?: string
 ): Promise<ElementReference | ElementReference[]> {
-    if (!(scope as Element).elementId) {
+    if (!(scope as WebdriverIO.Element).elementId) {
         return scope.execute(selector as any, referenceId)
     }
     /**
@@ -219,7 +219,7 @@ function isElement (o: Selector){
  * logic to find an element
  */
 export async function findElement(
-    this: Browser | Element,
+    this: WebdriverIO.Browser | WebdriverIO.Element,
     selector: Selector
 ) {
     const browserObject = getBrowserObject(this)
@@ -234,7 +234,7 @@ export async function findElement(
             false,
             selector.slice(DEEP_SELECTOR.length),
             // hard conversion from element id to Element is done by browser driver
-            ((this as Element).elementId ? this : undefined) as any as Element | Document
+            ((this as WebdriverIO.Element).elementId ? this : undefined) as any as Element | Document
         )
         elem = Array.isArray(elem) ? elem[0] : elem
         return getElementFromResponse(elem) ? elem : notFoundError
@@ -256,9 +256,9 @@ export async function findElement(
      */
     if (typeof selector === 'string' || isPlainObject(selector)) {
         const { using, value } = findStrategy(selector as string, this.isW3C, this.isMobile)
-        return (this as Element).elementId
+        return (this as WebdriverIO.Element).elementId
             // casting to any necessary given weak type support of protocol commands
-            ? this.findElementFromElement((this as Element).elementId, using, value) as any as ElementReference
+            ? this.findElementFromElement((this as WebdriverIO.Element).elementId, using, value) as any as ElementReference
             : this.findElement(using, value) as any as ElementReference
     }
 
@@ -296,7 +296,7 @@ export async function findElement(
  * logic to find a elements
  */
 export async function findElements(
-    this: Browser | Element,
+    this: WebdriverIO.Browser | WebdriverIO.Element,
     selector: Selector
 ) {
     const browserObject = getBrowserObject(this)
@@ -310,7 +310,7 @@ export async function findElements(
             true,
             selector.slice(DEEP_SELECTOR.length),
             // hard conversion from element id to Element is done by browser driver
-            ((this as Element).elementId ? this : undefined) as any as Element | Document
+            ((this as WebdriverIO.Element).elementId ? this : undefined) as any as Element | Document
         )
         const elemArray = Array.isArray(elems) ? elems : [elems]
         return elemArray.filter((elem) => elem && getElementFromResponse(elem))
@@ -331,9 +331,9 @@ export async function findElements(
      */
     if (typeof selector === 'string' || isPlainObject(selector)) {
         const { using, value } = findStrategy(selector as string, this.isW3C, this.isMobile)
-        return (this as Element).elementId
+        return (this as WebdriverIO.Element).elementId
             // casting to any necessary given weak type support of protocol commands
-            ? this.findElementsFromElement((this as Element).elementId, using, value) as any as ElementReference[]
+            ? this.findElementsFromElement((this as WebdriverIO.Element).elementId, using, value) as any as ElementReference[]
             : this.findElements(using, value) as any as ElementReference[]
     }
 
@@ -355,7 +355,7 @@ export async function findElements(
 export function verifyArgsAndStripIfElement(args: any) {
     function verify (arg: any) {
         if (arg && typeof arg === 'object' && arg.constructor.name === 'Element') {
-            const elem = arg as Element
+            const elem = arg as WebdriverIO.Element
             if (!elem.elementId) {
                 throw new Error(`The element with selector "${elem.selector}" you are trying to pass into the execute method wasn't found`)
             }
@@ -375,7 +375,7 @@ export function verifyArgsAndStripIfElement(args: any) {
 /**
  * getElementRect
  */
-export async function getElementRect(scope: Element) {
+export async function getElementRect(scope: WebdriverIO.Element) {
     const rect = await scope.getElementRect(scope.elementId)
 
     let defaults = { x: 0, y: 0, width: 0, height: 0 }
@@ -458,14 +458,14 @@ export function validateUrl (url: string, origError?: Error): string {
  * get window's scrollX and scrollY
  * @param {object} scope
  */
-export function getScrollPosition (scope: Element) {
+export function getScrollPosition (scope: WebdriverIO.Element) {
     return getBrowserObject(scope)
         .execute(/* istanbul ignore next */function (this: Window) {
             return { scrollX: this.pageXOffset, scrollY: this.pageYOffset }
         })
 }
 
-export async function hasElementId (element: Element) {
+export async function hasElementId (element: WebdriverIO.Element) {
     /*
      * This is only necessary as isDisplayed is on the exclusion list for the middleware
      */
@@ -485,7 +485,7 @@ export async function hasElementId (element: Element) {
     return true
 }
 
-export function addLocatorStrategyHandler(scope: Browser | MultiRemoteBrowser) {
+export function addLocatorStrategyHandler(scope: WebdriverIO.Browser | WebdriverIO.MultiRemoteBrowser) {
     return (name: string, func: (selector: string, root?: HTMLElement) => CustomLocatorReturnValue) => {
         if (scope.strategies.get(name)) {
             throw new Error(`Strategy ${name} already exists`)
@@ -506,7 +506,7 @@ export function addLocatorStrategyHandler(scope: Browser | MultiRemoteBrowser) {
  */
 export const enhanceElementsArray = (
     elements: ElementArray,
-    parent: Browser | Element,
+    parent: WebdriverIO.Browser | WebdriverIO.Element,
     selector: Selector | ElementReference[] | Element[],
     foundWith = '$$',
     props: any[] = []

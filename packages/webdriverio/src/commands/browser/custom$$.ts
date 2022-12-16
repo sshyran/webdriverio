@@ -1,7 +1,7 @@
 import { enhanceElementsArray } from '../../utils/index.js'
 import { getElements } from '../../utils/getElementObject.js'
 import { ELEMENT_KEY } from '../../constants.js'
-import type { ElementArray, CustomStrategyFunction, CustomStrategyReference, Browser } from '../../types'
+import type { ElementArray, CustomStrategyFunction, CustomStrategyReference } from '../../types'
 
 /**
  *
@@ -27,7 +27,7 @@ import type { ElementArray, CustomStrategyFunction, CustomStrategyReference, Bro
  * @return {ElementArray}
  */
 export async function custom$$ (
-    this: Browser,
+    this: WebdriverIO.Browser,
     strategyName: string,
     ...strategyArguments: any[]
 ): Promise<ElementArray> {
