@@ -279,18 +279,31 @@ interface MultiRemoteBase extends Omit<InstanceBase, 'sessionId'>, CustomInstanc
      * flag to indicate multiremote browser session
      */
     isMultiremote: true
+    /**
+     * get a specific instance to run commands on it
+     */
+    getInstance: (browserName: string) => WebdriverIO.Browser
 }
 interface MultiRemoteElementBase {
+    selector: string
     /**
      * multiremote browser instance names
      */
     instances: string[]
     addCommand: Function
     overwriteCommand: Function
+    /**
+     * flag to indicate multiremote browser session
+     */
+    isMultiremote: true
+    /**
+     * get a specific instance to run commands on it
+     */
+    getInstance: (browserName: string) => WebdriverIO.Browser
+    // @private
+    __propertiesObject__: never
 }
 
-type MultiRemoteBrowserReference = Record<string, Browser>
-type MultiRemoteElementReference = Record<string, Element>
 interface MultiRemoteBrowserType extends MultiRemoteBase, MultiRemoteBrowserCommandsType, MultiRemoteProtocolCommandsType { }
 interface MultiRemoteElementType extends MultiRemoteElementBase, MultiRemoteProtocolCommandsType, Omit<MultiRemoteBrowserCommandsType, keyof MultiRemoteElementCommandsType>, MultiRemoteElementCommandsType {}
 
@@ -434,7 +447,7 @@ declare global {
     namespace WebdriverIO {
         interface Browser extends BrowserBase, BrowserCommandsType, ProtocolCommands {}
         interface Element extends ElementBase, ProtocolCommands, Omit<BrowserCommandsType, keyof ElementCommandsType>, ElementCommandsType {}
-        type MultiRemoteBrowser = MultiRemoteBrowserReference & MultiRemoteBrowserType
-        type MultiRemoteElement = MultiRemoteElementReference & MultiRemoteElementType
+        interface MultiRemoteBrowser extends MultiRemoteBrowserType {}
+        interface MultiRemoteElement extends MultiRemoteElementType {}
     }
 }
